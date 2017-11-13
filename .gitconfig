@@ -1,0 +1,92 @@
+# This is Git's per-user configuration file.
+[user]
+# Please adapt and uncomment the following lines:
+#	name = Michael Sindelar
+#	email = sindelar@Michaels-MacBook-Pro.local
+
+
+[alias]
+	lg = log --graph --pretty=brief --date=relative
+	lga = log --graph --pretty=authorbrief --date=relative
+	lgm = log --graph --pretty=brief --date=relative --stat --first-parent -m
+	pgm = pull github master
+	pom = pull origin master
+	pgi = pull github integration
+	poi = pull origin integration
+	dc = diff --cached
+	a = add --all
+	st = status
+	redo = reset --mixed HEAD~1
+	cim = commit -m
+	ciam = commit -a -m
+	stat = show --stat
+	amend = commit --amend
+	wip = "!f() { git add -A; git commit -n -m \"wip $1\"; }; f"
+	yolo = "!f() { git add -A; git commit -n -m \"wip yolo\"; }; f"
+	br = "!f() { git for-each-ref --sort=-committerdate refs/heads/ --format='%(HEAD) %(color:yellow)%(refname:short)%(color:reset) - %(color:red)%(objectname:short)%(color:reset) - %(contents:subject) - %(authorname) (%(color:green)%(committerdate:relative)%(color:reset))'; git for-each-ref --sort=-committerdate refs/remotes/origin --format='%(HEAD) %(color:green)%(refname:short)%(color:reset) - %(color:red)%(objectname:short)%(color:reset) - %(contents:subject) - %(authorname) (%(color:green)%(committerdate:relative)%(color:reset))'; }; f"
+        ls-subtrees = !"git log | grep git-subtree-dir | awk '{ print $2 }'"|uniq
+
+	addw = add--interactive-words --patch=stage --
+
+	up = !git remote update -p; git merge --ff-only @{u}
+
+	unmerged = !git branch --no-merged | grep -v HEAD | xargs -L1 git --no-pager log --pretty=tformat:'%Cgreen%d%Creset - %h by %an (%Cblue%ar%Creset)' -1
+
+	merged = !git branch --merged | grep -v master | grep -v HEAD | xargs -L1 git --no-pager log --pretty=tformat:'%Cgreen%d%Creset - %h by %an (%Cblue%ar%Creset)' -1
+
+	ffm = "!f() { git fetch --all; git merge --ff-only $1; }; f"
+
+[core]
+	# Use custom `.gitignore` and `.gitattributes`
+	excludesfile = ~/.gitignore
+	attributesfile = ~/.gitattributes
+	# Treat spaces before tabs, lines that are indented with 8 or more spaces, and all kinds of trailing whitespace as an error
+	whitespace = space-before-tab,trailing-space
+
+[color]
+	# Use colors in Git commands that are capable of colored output when outputting to the terminal
+	ui = auto
+[color "branch"]
+	current = yellow reverse
+	local = yellow
+	remote = green
+[color "diff"]
+	meta = yellow bold
+	frag = magenta bold
+	old = red bold
+	new = green bold
+[color "status"]
+	added = yellow
+	changed = green
+	untracked = cyan
+[merge]
+	# Include summaries of merged commits in newly created merge commit messages
+	log = true
+
+# Use `origin` as the default remote on the `master` branch in all cases
+[branch "master"]
+	remote = origin
+	merge = refs/heads/master
+
+[pretty]
+	brief = %Cred%h%Creset %C(yellow)%an%d%Creset %s %Cgreen(%cr)%Creset
+	authorbrief = %Cred%h%Creset %C(yellow)%an%d%Creset %s %Cgreen(%ar)%Creset
+
+# URL shorthands
+[url "gitolite@code.uber.internal:"]
+	insteadOf = "gito:"
+[url "git@github.com:"]
+	insteadOf = "gh:"
+	pushInsteadOf = "github:"
+	pushInsteadOf = "git://github.com/"
+[url "git://github.com/"]
+	insteadOf = "github:"
+[url "git@gist.github.com:"]
+	insteadOf = "gst:"
+	pushInsteadOf = "gist:"
+	pushInsteadOf = "git://gist.github.com/"
+[url "git://gist.github.com/"]
+	insteadOf = "gist:"
+[user]
+	name = Michael Sindelar
+	email = sindelar@sidewalklabs.com
